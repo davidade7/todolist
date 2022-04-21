@@ -1,0 +1,8 @@
+/* Background image with color overlay*/
+.App {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(var(--main-bg-color),var(--main-bg-color)), url(/src/assets/background-image.jpg);
+  background-size: 100%;
+  display: flex;
+}

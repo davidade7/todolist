@@ -43,3 +43,10 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+/* Variables */
+:root {
+  font-family: 'Segoe UI';
+  --main-bg-color: rgba(173, 130, 40, 0.75);
+	--blue-color: rgba(87, 128, 199, 1.0);
+}
