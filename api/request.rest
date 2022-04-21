@@ -1,0 +1,29 @@
+GET http://localhost:3001/lists
+
+
+###
+GET http://localhost:3001/archived-lists
+
+
+###
+POST http://localhost:3001/list/new
+content-type: application/json
+
+{
+  "listName": "Ma nouvelle liste 2"
+}
+
+###
+DELETE http://localhost:3001/list/delete/6261352ed668c7769aa38dab
+
+
+###
+GET http://localhost:3001/list/archive/625e863423c327f94b42a0b6
+
+###
+PUT http://localhost:3001/list/update/625e863423c327f94b42a0b7
+content-type: application/json
+
+{
+  "listName": "Nouveau nom à la liste 2"
+}
