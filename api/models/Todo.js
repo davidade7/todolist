@@ -7,12 +7,6 @@ const ListSchema = new Schema({
 	tasks: []
 });
 
-const TaskSchema = new Schema({
-	taskName: {type: String, required: true},
-	isCompleted: {type: Boolean, default: false},
-});
-
 const List = mongoose.model("List", ListSchema);
-const Task = mongoose.model("List", TaskSchema);
 
-module.exports = {List, Task};
+module.exports = List;
