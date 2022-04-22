@@ -1,6 +1,6 @@
 .card-list {
   background-color: white;
-  margin: 0 30px 0 62px;
+  margin: 0 30px 30px 62px;
   display: flex;
   align-items: center;
   height: 80px;
@@ -39,7 +39,7 @@
   height: 100%;
 }
 
-.card-content h1 {
+.card-content h2 {
   font-size: 40px;
   padding-left: 50px;
 }
@@ -62,3 +62,68 @@
   opacity: 1;
   transition: ease 0.5s
 } 
+
+.add-list-button {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+}
+
+.add-list-button:hover {
+  cursor: pointer;
+}
+
+
+
+/* Popups */
+.popup {
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  top:-178px;
+  left:0;
+  padding: 0 15px;
+}
+
+.popup-content {
+  width: 500px;
+  background-color: lightgrey;
+  padding: 15px;
+  position: absolute;
+  left:50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 4px solid black;
+  box-shadow: 0 5px 5px grey;
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.popup-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-body input {
+  height: 30px;
+  width: 420px;
+  font-size: 24px;
+  outline-color: var(--blue-color) ;
+}
+
+
+
+
+.popup-close:hover {
+  font-weight: bold;
+  color: darkred;
+}
+.popup-button:hover {
+  cursor: pointer;
+}

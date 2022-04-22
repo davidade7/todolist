@@ -10,7 +10,7 @@ POST http://localhost:3001/list/new
 content-type: application/json
 
 {
-  "listName": "Ma nouvelle liste 2"
+  "listName": "Encore une liste"
 }
 
 ###
