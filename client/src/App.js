@@ -2,8 +2,13 @@
 import { BrowserRouter, NavLink } from 'react-router-dom';
 import { useState } from 'react';
 
+// import of components
+import Ongoing from './components/Ongoing';
+import Archived from './components/Archived';
+
 // images and icones
 import './App.css';
+
 
 function App() {
   const [ongoing, setOngoing] = useState(true);
@@ -44,7 +49,11 @@ function App() {
             </nav>
           </div>          
         </header>
-
+        <div className="content">
+          {ongoing && <Ongoing />}
+          {!ongoing && <Archived />}
+        </div>
+        
       </BrowserRouter>
       
     </div>

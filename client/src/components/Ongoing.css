@@ -1,0 +1,64 @@
+.card-list {
+  background-color: white;
+  margin: 0 30px 0 62px;
+  display: flex;
+  align-items: center;
+  height: 80px;
+  box-shadow: 0 5px 5px grey;
+}
+
+.card-score {
+  height: 56px;
+  width: 56px;
+  background-color: white;
+  border: solid 2px grey;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  transform: translateX(-32px);
+  position: absolute;
+}
+
+.card-gauge {
+  height: 56px;
+  width: 56px;
+  border: solid 4px var(--blue-color);
+  border-radius: 50%;
+  transform: translateX(-34px);
+  position: absolute;
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.card-content h1 {
+  font-size: 40px;
+  padding-left: 50px;
+}
+
+.card-options {
+  display: flex;
+  opacity: 0;
+  transition: ease 0.5s
+}
+
+.card-option {
+  margin: 0 10px;
+}
+
+.card-option:hover {
+  cursor: pointer;
+}
+
+.card-content:hover .card-options {
+  opacity: 1;
+  transition: ease 0.5s
+} 

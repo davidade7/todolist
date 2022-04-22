@@ -5,6 +5,7 @@
   background: linear-gradient(var(--main-bg-color),var(--main-bg-color)), url(/src/assets/background-image.jpg);
   background-size: 100%;
   display: flex;
+  flex-wrap: wrap;
 }
 
 
@@ -50,6 +51,15 @@ a {
 a:hover {
   border-bottom: solid 10px black;
   border-radius: 5px;
+}
+
+.content {
+  width: 1020px;
+  background-color: rgba(243, 243, 243,0.75);
+  /* Corriger la hauteur */
+  height: calc(100vh - 208px);
+  padding: 15px;
+  margin: 0 auto;
 }
 
 
