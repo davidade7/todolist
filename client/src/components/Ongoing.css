@@ -52,6 +52,7 @@
 
 .card-option {
   margin: 0 10px;
+  position: relative;
 }
 
 .card-option:hover {
@@ -63,6 +64,28 @@
   transition: ease 0.5s
 } 
 
+/* tooltip */
+
+.tooltip-text{
+  visibility: hidden;
+  position: absolute;
+  
+  z-index: 1;
+  font-size: 20px;
+  top: -35px;
+  left: -5px;
+  padding: 4px;
+  background-color: lightgrey;
+  border: 1px solid darkgrey;
+  box-shadow: 0 5px 5px grey;
+  white-space: nowrap;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+}
+
+/* Add list button */
 .add-list-button {
   position: absolute;
   bottom: 50px;

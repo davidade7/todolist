@@ -42,7 +42,10 @@ function Archived() {
               <h2>{list.listName}</h2>
             </div>
             <div className="card-options">
-              <div className="card-option" onClick={() => archiveList(list._id)}><img src={unarchiveIcon} alt="Archiver la liste"></img></div>
+              <div className="card-option tooltip" onClick={() => archiveList(list._id)}>
+                <img src={unarchiveIcon} alt="Archiver la liste"></img>
+                <span className="tooltip-text">Désarchiver</span>
+              </div>
             </div>
           </div>
         </div>

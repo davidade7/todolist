@@ -101,16 +101,26 @@ function Ongoing() {
               <h2>{list.listName}</h2>
             </div>
             <div className="card-options">
-              <div className="card-option" onClick={() => setupRename(list.listName, list._id)}><img src={editIcon} alt="Renommer la liste"></img></div>
-              <div className="card-option" onClick={() => archiveList(list._id)}><img src={archiveIcon} alt="Archiver la liste"></img></div>
-              <div className="card-option" onClick={() => deleteList(list._id)}><img src={deleteIcon} alt="Supprimer la liste"></img></div>
+              <div className="card-option tooltip" onClick={() => setupRename(list.listName, list._id)}>
+                <img src={editIcon} alt="Renommer la liste"></img>
+                <span className="tooltip-text">Renommer</span>
+              </div>
+              <div className="card-option tooltip" onClick={() => archiveList(list._id)}>
+                <img src={archiveIcon} alt="Archiver la liste"></img>
+                <span className="tooltip-text">Archiver</span>
+              </div>
+              <div className="card-option tooltip" onClick={() => deleteList(list._id)}>
+                <img src={deleteIcon} alt="Supprimer la liste"></img>
+                <span className="tooltip-text">Supprimer</span>
+              </div>
             </div>
           </div>
         </div>
       ))}
 
-      <div className="add-list-button" onClick={() => setAddPopupActive(true)}>
+      <div className="add-list-button tooltip" onClick={() => setAddPopupActive(true)}>
         <img src={addListIcon} alt="Ajouter une liste" />
+        <span className="tooltip-text">Nouvelle liste</span>
       </div>
 
 
