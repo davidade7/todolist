@@ -5,16 +5,18 @@ import './Ongoing.css'
 import editIcon from '../assets/edit_icon.svg'
 import deleteIcon from '../assets/delete_icon.svg'
 import archiveIcon from '../assets/archive_icon.svg'
-import addListIcon from '../assets/add_circle.svg'
-import sendIcon from '../assets/send.svg'
+import addListIcon from '../assets/add_circle_icon.svg'
+import sendIcon from '../assets/send_icon.svg'
 
 
 const api_base = "http://localhost:3001";
 
 function Ongoing() {
   const [lists, setLists] = useState([]);
-  const [popupActive, setPopupActive] = useState(false);
-  const [newList, setNewList] = useState("");
+  const [addPopupActive, setAddPopupActive] = useState(false);
+  const [editListPopupActive, setEditListPopupActive] = useState(false);
+  const [listName, setListName] = useState("");
+  const [listId, setListId] = useState("")
   
   useEffect(() => {
     GetLists();
@@ -43,14 +45,14 @@ function Ongoing() {
 				"Content-Type": "application/json" 
 			},
 			body: JSON.stringify({
-				listName: newList
+				listName: listName
 			})
 		}).then(res => res.json());
 
 		setLists([...lists, data]);
 
-		setPopupActive(false);
-		setNewList("");
+		setAddPopupActive(false);
+		setListName("");
 	}
 
   // Archive a list
@@ -58,6 +60,30 @@ function Ongoing() {
     await fetch(api_base + '/list/archive/' + id).then(res => res.json());
 		GetLists()
 	}
+
+  // Rename a list
+  const setupRename = (list_Name, list_Id) => {
+    setListName(list_Name);
+    setListId(list_Id);
+    setEditListPopupActive(true);
+  }
+
+  const renameList = async () => {
+    await fetch(api_base + "/list/update/" + listId, {
+		 	method: "PUT",
+		 	headers: {
+		 		"Content-Type": "application/json" 
+		 	},
+		 	body: JSON.stringify({
+		 		listName: listName
+		 	})
+		 }).then(res => res.json());
+
+     setEditListPopupActive(false);
+     setListName("");
+     setListId("");
+     GetLists()
+  }
 
 
   return (
@@ -75,7 +101,7 @@ function Ongoing() {
               <h2>{list.listName}</h2>
             </div>
             <div className="card-options">
-              <div className="card-option"><img src={editIcon} alt="Renommer la liste"></img></div>
+              <div className="card-option" onClick={() => setupRename(list.listName, list._id)}><img src={editIcon} alt="Renommer la liste"></img></div>
               <div className="card-option" onClick={() => archiveList(list._id)}><img src={archiveIcon} alt="Archiver la liste"></img></div>
               <div className="card-option" onClick={() => deleteList(list._id)}><img src={deleteIcon} alt="Supprimer la liste"></img></div>
             </div>
@@ -83,28 +109,53 @@ function Ongoing() {
         </div>
       ))}
 
-      <div className="add-list-button" onClick={() => setPopupActive(true)}>
+      <div className="add-list-button" onClick={() => setAddPopupActive(true)}>
         <img src={addListIcon} alt="Ajouter une liste" />
       </div>
 
 
       {/* Popup to add a list */}
-      {popupActive ? (
+      {addPopupActive ? (
 				<div className="popup">
 					<div className="popup-content">
 						<div className="popup-header">
               <div className="popup-title">
                 <h3>Creation d'une nouvelle liste</h3>
               </div>
-              <div className="popup-close popup-button" onClick={() => setPopupActive(false)}>
+              <div className="popup-close popup-button" onClick={() => setAddPopupActive(false)}>
                 X
               </div>
             </div>
 						<div className="popup-body">
               <div>
-                <input type="text" className="add-todo-input" onChange={e => setNewList(e.target.value)} value={newList} />
+                <input type="text" className="add-todo-input" onChange={e => setListName(e.target.value)} value={listName} />
               </div>
               <div className="popup-button" onClick={addList}>
+                <img src={sendIcon} alt="Créer la liste" />
+              </div>
+            </div>
+					</div>
+				</div>
+			) : ''}
+
+
+      {/* Popup to edit a list name */}
+      {editListPopupActive ? (
+				<div className="popup">
+					<div className="popup-content">
+						<div className="popup-header">
+              <div className="popup-title">
+                <h3>Renommer la liste</h3>
+              </div>
+              <div className="popup-close popup-button" onClick={() => setEditListPopupActive(false)}>
+                X
+              </div>
+            </div>
+						<div className="popup-body">
+              <div>
+                <input type="text" className="add-todo-input" onChange={e => setListName(e.target.value)} value={listName} />
+              </div>
+              <div className="popup-button" onClick={renameList}>
                 <img src={sendIcon} alt="Créer la liste" />
               </div>
             </div>
