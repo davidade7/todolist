@@ -7,6 +7,7 @@ import deleteIcon from '../assets/delete_icon.svg'
 import archiveIcon from '../assets/archive_icon.svg'
 import addListIcon from '../assets/add_circle_icon.svg'
 import sendIcon from '../assets/send_icon.svg'
+import addTaskIcon from '../assets/add_circle_outline_icon.svg'
 
 
 const api_base = "http://localhost:3001";
@@ -90,6 +91,71 @@ function Ongoing() {
     <div className="page-content">
       
       {lists.map(list => (
+        <div className="list-card" key={list._id}>
+          <div className="list-header">
+            <div className="card-gauge">
+              66%
+            </div>
+            <div className="card-content">
+              <div className="card-title">
+                <h2>{list.listName}</h2>
+              </div>
+              <div className="card-options">
+                <div className="option tooltip" onClick={() => setupRename(list.listName, list._id)}>
+                  <img src={editIcon} alt="Renommer la liste"></img>
+                  <span className="tooltip-text">Renommer</span>
+                </div>
+                <div className="option tooltip" onClick={() => archiveList(list._id)}>
+                  <img src={archiveIcon} alt="Archiver la liste"></img>
+                  <span className="tooltip-text">Archiver</span>
+                </div>
+                <div className="option tooltip" onClick={() => deleteList(list._id)}>
+                  <img src={deleteIcon} alt="Supprimer la liste"></img>
+                  <span className="tooltip-text">Supprimer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="list-footer">
+            {/* tasks                      */}
+            {list.tasks.map(task => (
+              <div className="task" key={task.id}>
+                <div className="task-left">
+                  <div>
+                    {task.isCompleted && <input type="checkbox" checked/>}
+                    {!task.isCompleted && <input type="checkbox"/>}
+                  </div>
+                  <div className="task-content"> 
+                    {task.id}
+                    {task.name}
+                  </div>
+                </div>
+                <div className="task-options">
+                  <div className="option tooltip">
+                    <img src={editIcon} alt="Renommer la liste"></img>
+                    <span className="tooltip-text">Renommer</span>
+                  </div>
+                  <div className="option tooltip">
+                    <img src={deleteIcon} alt="Supprimer la liste"></img>
+                    <span className="tooltip-text">Supprimer</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="task-add">
+              <div>
+                <img src={addTaskIcon} alt="Ajouter une tâche"></img>
+              </div>
+              <div className="task-content">
+                Ajouter une tâche
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      ))}
+
+{/* {lists.map(list => (
         <div className="card-list" key={list._id}>
           <div className="card-score">
             66%
@@ -116,7 +182,7 @@ function Ongoing() {
             </div>
           </div>
         </div>
-      ))}
+      ))} */}
 
       <div className="add-list-button tooltip" onClick={() => setAddPopupActive(true)}>
         <img src={addListIcon} alt="Ajouter une liste" />
@@ -173,7 +239,6 @@ function Ongoing() {
 				</div>
 			) : ''}
     </div>
-      
   )
 }
 
