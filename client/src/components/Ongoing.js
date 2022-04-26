@@ -15,9 +15,10 @@ const api_base = "http://localhost:3001";
 function Ongoing() {
   const [lists, setLists] = useState([]);
   const [addPopupActive, setAddPopupActive] = useState(false);
-  const [editListPopupActive, setEditListPopupActive] = useState(false);
-  const [listName, setListName] = useState("");
-  const [listId, setListId] = useState("")
+  const [contentName, setContentName] = useState("");
+  const [listId, setListId] = useState("");
+  const [action, setAction] = useState("");
+  const [popUpTitle, setPopUpTitle] = useState("")
   
   useEffect(() => {
     GetLists();
@@ -39,6 +40,12 @@ function Ongoing() {
 	}
 
   // add a list
+  const setupCreateList = () => {
+    setAction('add-list');
+    setPopUpTitle("Creation d'une nouvelle liste");
+    setAddPopupActive(true);
+  }
+  
   const addList = async () => {
 		const data = await fetch(api_base + "/list/new", {
 			method: "POST",
@@ -46,14 +53,12 @@ function Ongoing() {
 				"Content-Type": "application/json" 
 			},
 			body: JSON.stringify({
-				listName: listName
+				listName: contentName
 			})
 		}).then(res => res.json());
 
 		setLists([...lists, data]);
-
-		setAddPopupActive(false);
-		setListName("");
+		closePopUp();
 	}
 
   // Archive a list
@@ -64,11 +69,12 @@ function Ongoing() {
 
   // Rename a list
   const setupRename = (list_Name, list_Id) => {
-    setListName(list_Name);
+    setContentName(list_Name);
     setListId(list_Id);
-    setEditListPopupActive(true);
+    setAction('rename-list');
+    setPopUpTitle("Renommer la liste");
+    setAddPopupActive(true);
   }
-
   const renameList = async () => {
     await fetch(api_base + "/list/update/" + listId, {
 		 	method: "PUT",
@@ -76,14 +82,59 @@ function Ongoing() {
 		 		"Content-Type": "application/json" 
 		 	},
 		 	body: JSON.stringify({
-		 		listName: listName
+		 		listName: contentName
 		 	})
 		 }).then(res => res.json());
 
-     setEditListPopupActive(false);
-     setListName("");
-     setListId("");
+     closePopUp();
      GetLists()
+  }
+
+  // add a task
+  const setupAddTask = (list_Id) => {
+    setAction('add-task');
+    setPopUpTitle("Ajout d'une nouvelle tâche");
+    setListId(list_Id);
+    console.log(list_Id);
+    setAddPopupActive(true);
+  }
+  const addTask = async () => {
+    await fetch(api_base + "/list/"+ listId + "/addtask", {
+ 	 	method: "PUT",
+ 	 	headers: {
+ 	 		"Content-Type": "application/json" 
+ 	 	},
+ 	 	body: JSON.stringify({
+ 	 		taskName: contentName
+ 	 	})
+ 	}).then(res => res.json());
+   closePopUp();
+   GetLists()
+  }
+
+  // Close PopUp and reset data
+  const closePopUp = () => {
+    setAddPopupActive(false);
+    setContentName("");
+    setListId("");
+    setAction("");
+    setPopUpTitle("");
+  }
+
+  const validateForm = () => {
+    switch (action) {
+      case 'add-list':
+        addList();
+        break;
+      case 'rename-list':
+        renameList();
+        break;
+      case 'add-task':
+        addTask();
+        break;
+      default:
+        closePopUp()
+    }
   }
 
 
@@ -119,15 +170,14 @@ function Ongoing() {
           <div className="list-footer">
             {/* tasks                      */}
             {list.tasks.map(task => (
-              <div className="task" key={task.id}>
+              <div className="task" key={task._id}>
                 <div className="task-left">
                   <div>
                     {task.isCompleted && <input type="checkbox" checked/>}
                     {!task.isCompleted && <input type="checkbox"/>}
                   </div>
                   <div className="task-content"> 
-                    {task.id}
-                    {task.name}
+                    {task.taskName}
                   </div>
                 </div>
                 <div className="task-options">
@@ -142,7 +192,7 @@ function Ongoing() {
                 </div>
               </div>
             ))}
-            <div className="task-add">
+            <div className="task-add" onClick={() => setupAddTask(list._id)}>
               <div>
                 <img src={addTaskIcon} alt="Ajouter une tâche"></img>
               </div>
@@ -155,40 +205,11 @@ function Ongoing() {
         </div>
       ))}
 
-{/* {lists.map(list => (
-        <div className="card-list" key={list._id}>
-          <div className="card-score">
-            66%
-          </div>
-          <div className="card-gauge">
-          </div>
-          <div className="card-content">
-            <div className="card-title">
-              <h2>{list.listName}</h2>
-            </div>
-            <div className="card-options">
-              <div className="card-option tooltip" onClick={() => setupRename(list.listName, list._id)}>
-                <img src={editIcon} alt="Renommer la liste"></img>
-                <span className="tooltip-text">Renommer</span>
-              </div>
-              <div className="card-option tooltip" onClick={() => archiveList(list._id)}>
-                <img src={archiveIcon} alt="Archiver la liste"></img>
-                <span className="tooltip-text">Archiver</span>
-              </div>
-              <div className="card-option tooltip" onClick={() => deleteList(list._id)}>
-                <img src={deleteIcon} alt="Supprimer la liste"></img>
-                <span className="tooltip-text">Supprimer</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))} */}
-
-      <div className="add-list-button tooltip" onClick={() => setAddPopupActive(true)}>
+      {/* Add button */}
+      <div className="add-list-button tooltip" onClick={() => setupCreateList()}>
         <img src={addListIcon} alt="Ajouter une liste" />
         <span className="tooltip-text">Nouvelle liste</span>
       </div>
-
 
       {/* Popup to add a list */}
       {addPopupActive ? (
@@ -196,42 +217,17 @@ function Ongoing() {
 					<div className="popup-content">
 						<div className="popup-header">
               <div className="popup-title">
-                <h3>Creation d'une nouvelle liste</h3>
+                <h3>{popUpTitle}</h3>
               </div>
-              <div className="popup-close popup-button" onClick={() => setAddPopupActive(false)}>
+              <div className="popup-close popup-button" onClick={() => closePopUp()}>
                 X
               </div>
             </div>
 						<div className="popup-body">
               <div>
-                <input type="text" className="add-todo-input" onChange={e => setListName(e.target.value)} value={listName} />
+                <input type="text" className="add-todo-input" onChange={e => setContentName(e.target.value)} value={contentName} />
               </div>
-              <div className="popup-button" onClick={addList}>
-                <img src={sendIcon} alt="Créer la liste" />
-              </div>
-            </div>
-					</div>
-				</div>
-			) : ''}
-
-
-      {/* Popup to edit a list name */}
-      {editListPopupActive ? (
-				<div className="popup">
-					<div className="popup-content">
-						<div className="popup-header">
-              <div className="popup-title">
-                <h3>Renommer la liste</h3>
-              </div>
-              <div className="popup-close popup-button" onClick={() => setEditListPopupActive(false)}>
-                X
-              </div>
-            </div>
-						<div className="popup-body">
-              <div>
-                <input type="text" className="add-todo-input" onChange={e => setListName(e.target.value)} value={listName} />
-              </div>
-              <div className="popup-button" onClick={renameList}>
+              <div className="popup-button" onClick={() => validateForm()}>
                 <img src={sendIcon} alt="Créer la liste" />
               </div>
             </div>

@@ -65,3 +65,20 @@ app.put('/list/update/:id', async (req, res) => {
 	res.json(list);
 });
 
+// ---------------------------
+// Routes for task
+
+// Get all tasks
+// not need as already in the list
+
+// Create a new task
+app.put('/list/:id/addtask', async (req, res) => {
+	const list = await List.findById(req.params.id);
+	
+	list.tasks.push(
+		{ taskName: req.body.taskName}
+	)
+	list.save();
+
+	res.json(list);
+});

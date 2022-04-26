@@ -142,6 +142,7 @@
   position: absolute;
   bottom: 50px;
   right: 50px;
+  z-index: 2;
 }
 
 .add-list-button:hover {
@@ -158,6 +159,7 @@
   top:-178px;
   left:0;
   padding: 0 15px;
+  z-index: 3;
 }
 
 .popup-content {

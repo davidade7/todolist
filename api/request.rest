@@ -27,3 +27,12 @@ content-type: application/json
 {
   "listName": "Nouveau nom à la liste 2"
 }
+
+
+###
+PUT http://localhost:3001/list/6262a94b40258ec72c563cc1/addtask
+content-type: application/json
+
+{
+  "taskName": "Nouvelle tâche"
+}
