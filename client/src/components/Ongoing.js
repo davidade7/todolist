@@ -17,6 +17,7 @@ function Ongoing() {
   const [addPopupActive, setAddPopupActive] = useState(false);
   const [contentName, setContentName] = useState("");
   const [listId, setListId] = useState("");
+  const [taskId, setTaskId] = useState("");
   const [action, setAction] = useState("");
   const [popUpTitle, setPopUpTitle] = useState("")
   
@@ -112,6 +113,20 @@ function Ongoing() {
    GetLists()
   }
 
+  // Delete a task
+  const setupDeleteTask = async(list_Id, task_Id) => {
+    setListId(list_Id);
+    setTaskId(task_Id);
+    await deleteTask();
+  }
+  const deleteTask = async() => {
+    const deleteUrl = `${api_base}/list/${listId}/delete/${taskId}`;
+    await fetch(deleteUrl, { method: "PUT"})
+ 	  .then(res => res.json());
+    GetLists()
+  }
+
+
   // Close PopUp and reset data
   const closePopUp = () => {
     setAddPopupActive(false);
@@ -185,7 +200,7 @@ function Ongoing() {
                     <img src={editIcon} alt="Renommer la liste"></img>
                     <span className="tooltip-text">Renommer</span>
                   </div>
-                  <div className="option tooltip">
+                  <div className="option tooltip" onClick={() => setupDeleteTask(list._id, task._id)}>
                     <img src={deleteIcon} alt="Supprimer la liste"></img>
                     <span className="tooltip-text">Supprimer</span>
                   </div>

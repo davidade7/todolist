@@ -36,3 +36,6 @@ content-type: application/json
 {
   "taskName": "Nouvelle tâche"
 }
+
+###
+PUT http://localhost:3001/list/6262a94b40258ec72c563cc1/delete/626962ad122e31955d0c0857

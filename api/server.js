@@ -82,3 +82,23 @@ app.put('/list/:id/addtask', async (req, res) => {
 
 	res.json(list);
 });
+
+// Delete a task
+app.put('/list/:list_id/delete/:task_id', async (req, res) => {
+	const list = await List.updateOne({_id : req.params.list_id}, {$pull : {"tasks": {_id: req.params.task_id}}});
+	// list.save();
+	res.json(list);
+});
+
+
+// app.post('/list/list_id/delete/:task_id', async (req, res) => {
+// 	const list = await List.updateOne({_id : req.params.list_id}, {$pull : {tasks: {_id: req.params.task_id}}}, (err, results) => {
+// 		if(!err){
+// 			res.json(list, results);
+// 		}
+// 		else {
+// 			console.log(err);
+// 		}
+// 	});
+	
+// });
