@@ -69,7 +69,7 @@ app.put('/list/update/:id', async (req, res) => {
 // Routes for task
 
 // Get all tasks
-// not need as already in the list
+// not needed as already in the list
 
 // Create a new task
 app.put('/list/:id/addtask', async (req, res) => {
@@ -86,19 +86,21 @@ app.put('/list/:id/addtask', async (req, res) => {
 // Delete a task
 app.put('/list/:list_id/delete/:task_id', async (req, res) => {
 	const list = await List.updateOne({_id : req.params.list_id}, {$pull : {"tasks": {_id: req.params.task_id}}});
-	// list.save();
 	res.json(list);
 });
 
-
-// app.post('/list/list_id/delete/:task_id', async (req, res) => {
-// 	const list = await List.updateOne({_id : req.params.list_id}, {$pull : {tasks: {_id: req.params.task_id}}}, (err, results) => {
-// 		if(!err){
-// 			res.json(list, results);
-// 		}
-// 		else {
-// 			console.log(err);
-// 		}
-// 	});
+// Rename a task
+app.put('/list/:list_id/rename/:task_id', async (req, res) => {
+	const list = await List.updateOne({_id : req.params.list_id, tasks : { $elemMatch : {_id : req.params.task_id }}}, 
+		{$set : {"tasks.$.taskName": req.body.taskName}});
 	
-// });
+	res.json(list);
+});
+
+// Complete a task
+app.put('/list/:list_id/complete/:task_id', async (req, res) => {
+	const list = await List.updateOne({_id : req.params.list_id, tasks : { $elemMatch : {_id : req.params.task_id }}}, 
+		{$set : {"tasks.$.isCompleted": req.body.isCompleted}});
+	
+	res.json(list);
+});

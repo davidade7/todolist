@@ -126,12 +126,61 @@ function Ongoing() {
     GetLists()
   }
 
+  // Rename a task
+  const setupRenameTask = (list_Id, task_Id, list_Name) => {
+    setListId(list_Id);
+    setTaskId(task_Id);
+    setContentName(list_Name);
+    setAction('rename-task');
+    setPopUpTitle("Renommer la tâche");
+    setAddPopupActive(true);
+  }
+  const renameTask = async() => {
+    await fetch(api_base + "/list/" + listId + "/rename/" + taskId, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json" 
+      },
+      body: JSON.stringify({
+        taskName: contentName
+      })
+    }).then(res => res.json());
+
+    closePopUp();
+    GetLists()
+  }
+
+  // Complete a task
+  const setupCompleteTask = async(list_Id, task_Id, list_isCompleted) => {
+    setListId(list_Id);
+    setTaskId(task_Id);
+    setContentName(list_isCompleted);
+    console.log(contentName)
+    await completeTask();
+  }
+  const completeTask = async() => {
+    await fetch(api_base + "/list/" + listId + "/complete/" + taskId, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json" 
+      },
+      body: JSON.stringify({
+        isCompleted: !contentName
+      })
+    }).then(res => res.json());
+    setContentName("")
+    GetLists()
+  }
+
+
+
 
   // Close PopUp and reset data
   const closePopUp = () => {
     setAddPopupActive(false);
     setContentName("");
     setListId("");
+    setTaskId("")
     setAction("");
     setPopUpTitle("");
   }
@@ -146,6 +195,9 @@ function Ongoing() {
         break;
       case 'add-task':
         addTask();
+        break;
+      case 'rename-task':
+        renameTask();
         break;
       default:
         closePopUp()
@@ -186,9 +238,9 @@ function Ongoing() {
             {/* tasks                      */}
             {list.tasks.map(task => (
               <div className="task" key={task._id}>
-                <div className="task-left">
+                <div className="task-left" onChange={() => setupCompleteTask(list._id, task._id, task.isCompleted)}>
                   <div>
-                    {task.isCompleted && <input type="checkbox" checked/>}
+                    {task.isCompleted && <input type="checkbox" defaultChecked/>}
                     {!task.isCompleted && <input type="checkbox"/>}
                   </div>
                   <div className="task-content"> 
@@ -196,7 +248,7 @@ function Ongoing() {
                   </div>
                 </div>
                 <div className="task-options">
-                  <div className="option tooltip">
+                  <div className="option tooltip" onClick={() => setupRenameTask(list._id, task._id, task.taskName)}>
                     <img src={editIcon} alt="Renommer la liste"></img>
                     <span className="tooltip-text">Renommer</span>
                   </div>

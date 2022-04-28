@@ -116,8 +116,12 @@
   padding-bottom: 4px;
 }
 
-/* tooltip */
+.task-add:hover {
+  cursor: pointer;
+}
 
+
+/* tooltip */
 .tooltip-text{
   visibility: hidden;
   position: absolute;

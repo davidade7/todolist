@@ -39,3 +39,20 @@ content-type: application/json
 
 ###
 PUT http://localhost:3001/list/6262a94b40258ec72c563cc1/delete/626962ad122e31955d0c0857
+
+
+###
+PUT http://localhost:3001/list/6262a94b40258ec72c563cc1/rename/626968aef26ae4e70e83a902
+content-type: application/json
+
+{
+  "taskName": "la formation"
+}
+
+###
+PUT http://localhost:3001/list/6262a94b40258ec72c563cc1/complete/626968aef26ae4e70e83a902
+content-type: application/json
+
+{
+  "isCompleted": false
+}
