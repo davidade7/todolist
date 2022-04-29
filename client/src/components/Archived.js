@@ -31,20 +31,20 @@ function Archived() {
     <div className="page-content">
       {/* {archivedLists ? '' : (<h1>Il n'y a pas de liste archivée.</h1>)} */}
       {archivedLists.map(list => (
-        <div className="card-list" key={list._id}>
-          <div className="card-score">
-            66%
-          </div>
-          <div className="card-gauge">
-          </div>
-          <div className="card-content">
-            <div className="card-title">
-              <h2>{list.listName}</h2>
+        <div className="list-card" key={list._id}>
+          <div className="list-header">
+            <div className="card-gauge">
+              66%
             </div>
-            <div className="card-options">
-              <div className="card-option tooltip" onClick={() => archiveList(list._id)}>
-                <img src={unarchiveIcon} alt="Archiver la liste"></img>
-                <span className="tooltip-text">Désarchiver</span>
+            <div className="card-content">
+              <div className="card-title">
+                <h2>{list.listName}</h2>
+              </div>
+              <div className="options">
+                <div className="option tooltip" onClick={() => archiveList(list._id)}>
+                  <img src={unarchiveIcon} alt="Archiver la liste"></img>
+                  <span className="tooltip-text">Désarchiver</span>
+                </div>
               </div>
             </div>
           </div>

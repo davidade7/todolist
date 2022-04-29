@@ -54,25 +54,6 @@
   padding-left: 50px;
 }
 
-.card-options {
-  display: flex;
-  opacity: 0;
-  transition: ease 0.5s
-}
-
-.option {
-  margin: 0 10px;
-  position: relative;
-}
-
-.option:hover {
-  cursor: pointer;
-}
-
-.card-content:hover .card-options {
-  opacity: 1;
-  transition: ease 0.5s
-} 
 
 /* Tasks */
 .list-footer{
@@ -90,16 +71,13 @@
   margin-bottom: 10px;
   font-size: 30px;
 }
-
 .task-left {
   display: flex;
   align-items: center;
 }
-
 .task-options {
   display: flex;
 }
-
 .task-add {
   display: flex;
   align-items: center;
@@ -107,25 +85,40 @@
   padding-top: 10px;
   border-top: 1px solid grey;
 }
-
 .task-content {
   margin-left: 10px;
 }
-
 .task-add .task-content {
   padding-bottom: 4px;
 }
-
 .task-add:hover {
   cursor: pointer;
 }
+
+
+/* options */
+.options {
+  display: flex;
+  opacity: 0;
+  transition: ease 0.5s
+}
+.option {
+  margin: 0 10px;
+  position: relative;
+}
+.option:hover {
+  cursor: pointer;
+}
+.card-content:hover .options, .task:hover .options {
+  opacity: 1;
+  transition: ease 0.5s
+} 
 
 
 /* tooltip */
 .tooltip-text{
   visibility: hidden;
   position: absolute;
-  
   z-index: 1;
   font-size: 20px;
   top: -35px;
@@ -136,10 +129,10 @@
   box-shadow: 0 5px 5px grey;
   white-space: nowrap;
 }
-
 .tooltip:hover .tooltip-text {
   visibility: visible;
 }
+
 
 /* Add list button */
 .add-list-button {
@@ -148,11 +141,9 @@
   right: 50px;
   z-index: 2;
 }
-
 .add-list-button:hover {
   cursor: pointer;
 }
-
 
 
 /* Popups */

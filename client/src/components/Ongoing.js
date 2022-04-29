@@ -218,7 +218,7 @@ function Ongoing() {
               <div className="card-title">
                 <h2>{list.listName}</h2>
               </div>
-              <div className="card-options">
+              <div className="options">
                 <div className="option tooltip" onClick={() => setupRename(list.listName, list._id)}>
                   <img src={editIcon} alt="Renommer la liste"></img>
                   <span className="tooltip-text">Renommer</span>
@@ -247,7 +247,7 @@ function Ongoing() {
                     {task.taskName}
                   </div>
                 </div>
-                <div className="task-options">
+                <div className="options">
                   <div className="option tooltip" onClick={() => setupRenameTask(list._id, task._id, task.taskName)}>
                     <img src={editIcon} alt="Renommer la liste"></img>
                     <span className="tooltip-text">Renommer</span>
