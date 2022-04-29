@@ -1,3 +1,4 @@
+/* import of react modules */
 import React, { useEffect, useState } from 'react'
 
 /* import of styles and icons */
@@ -8,7 +9,8 @@ import archiveIcon from '../assets/archive_icon.svg'
 import addListIcon from '../assets/add_circle_icon.svg'
 import sendIcon from '../assets/send_icon.svg'
 import addTaskIcon from '../assets/add_circle_outline_icon.svg'
-
+import edit40pxIcon from '../assets/edit_40px_icon.svg'
+import cancelIcon from '../assets/cancel_icon.svg'
 
 const api_base = "http://localhost:3001";
 
@@ -19,7 +21,8 @@ function Ongoing() {
   const [listId, setListId] = useState("");
   const [taskId, setTaskId] = useState("");
   const [action, setAction] = useState("");
-  const [popUpTitle, setPopUpTitle] = useState("")
+  const [popUpTitle, setPopUpTitle] = useState("");
+  const [popupError, setPopupError] = useState("")
   
   useEffect(() => {
     GetLists();
@@ -43,7 +46,7 @@ function Ongoing() {
   // add a list
   const setupCreateList = () => {
     setAction('add-list');
-    setPopUpTitle("Creation d'une nouvelle liste");
+    setPopUpTitle("Ajouter une liste");
     setAddPopupActive(true);
   }
   
@@ -94,7 +97,7 @@ function Ongoing() {
   // add a task
   const setupAddTask = (list_Id) => {
     setAction('add-task');
-    setPopUpTitle("Ajout d'une nouvelle tâche");
+    setPopUpTitle("Ajouter une tâche");
     setListId(list_Id);
     console.log(list_Id);
     setAddPopupActive(true);
@@ -173,8 +176,6 @@ function Ongoing() {
   }
 
 
-
-
   // Close PopUp and reset data
   const closePopUp = () => {
     setAddPopupActive(false);
@@ -183,31 +184,48 @@ function Ongoing() {
     setTaskId("")
     setAction("");
     setPopUpTitle("");
+    setPopupError("");
   }
 
+  // Function to validate the form
   const validateForm = () => {
-    switch (action) {
-      case 'add-list':
-        addList();
-        break;
-      case 'rename-list':
-        renameList();
-        break;
-      case 'add-task':
-        addTask();
-        break;
-      case 'rename-task':
-        renameTask();
-        break;
-      default:
-        closePopUp()
+    if (contentName.length === 0) {
+      if (action === 'add-list' || action === 'rename-list') {
+        setPopupError("Le nom de la liste doit contenir au moins 1 caractères.")
+      } else if (action === 'add-task' || action === 'rename-task') {
+        setPopupError("Le nom de la tâche doit contenir au moins 1 caractères.")
+      }
+    } else if (contentName.length > 30) {
+      if (action === 'add-list' || action === 'rename-list') {
+        setPopupError("Le nom de la liste doit contenir au plus 30 caractères.")
+      } else if (action === 'add-task' || action === 'rename-task') {
+        setPopupError("Le nom de la tâche doit contenir au plus 30 caractères.")
+      }
+    } else {
+      setPopupError('')
+      switch (action) {
+        case 'add-list':
+          addList();
+          break;
+        case 'rename-list':
+          renameList();
+          break;
+        case 'add-task':
+          addTask();
+          break;
+        case 'rename-task':
+          renameTask();
+          break;
+        default:
+          closePopUp()
+      }
     }
   }
 
 
   return (
     <div className="page-content">
-      
+      {/* ----- lists ----- */}
       {lists.map(list => (
         <div className="list-card" key={list._id}>
           <div className="list-header">
@@ -221,21 +239,21 @@ function Ongoing() {
               <div className="options">
                 <div className="option tooltip" onClick={() => setupRename(list.listName, list._id)}>
                   <img src={editIcon} alt="Renommer la liste"></img>
-                  <span className="tooltip-text">Renommer</span>
+                  <span className="tooltip-text">Renommer ↓</span>
                 </div>
                 <div className="option tooltip" onClick={() => archiveList(list._id)}>
                   <img src={archiveIcon} alt="Archiver la liste"></img>
-                  <span className="tooltip-text">Archiver</span>
+                  <span className="tooltip-text">Archiver ↓</span>
                 </div>
                 <div className="option tooltip" onClick={() => deleteList(list._id)}>
                   <img src={deleteIcon} alt="Supprimer la liste"></img>
-                  <span className="tooltip-text">Supprimer</span>
+                  <span className="tooltip-text">Supprimer ↓</span>
                 </div>
               </div>
             </div>
           </div>
           <div className="list-footer">
-            {/* tasks                      */}
+            {/* ----- tasks ----- */}
             {list.tasks.map(task => (
               <div className="task" key={task._id}>
                 <div className="task-left" onChange={() => setupCompleteTask(list._id, task._id, task.isCompleted)}>
@@ -249,12 +267,12 @@ function Ongoing() {
                 </div>
                 <div className="options">
                   <div className="option tooltip" onClick={() => setupRenameTask(list._id, task._id, task.taskName)}>
-                    <img src={editIcon} alt="Renommer la liste"></img>
-                    <span className="tooltip-text">Renommer</span>
+                    <img src={editIcon} alt="Renommer la tâche"></img>
+                    <span className="tooltip-text">Renommer ↓</span>
                   </div>
                   <div className="option tooltip" onClick={() => setupDeleteTask(list._id, task._id)}>
-                    <img src={deleteIcon} alt="Supprimer la liste"></img>
-                    <span className="tooltip-text">Supprimer</span>
+                    <img src={deleteIcon} alt="Supprimer la tâche"></img>
+                    <span className="tooltip-text">Supprimer ↓</span>
                   </div>
                 </div>
               </div>
@@ -283,18 +301,36 @@ function Ongoing() {
 				<div className="popup">
 					<div className="popup-content">
 						<div className="popup-header">
-              <div className="popup-title">
-                <h3>{popUpTitle}</h3>
+              <div className="popup-left">
+                <div>
+                  <img src={edit40pxIcon} alt="Renommer"></img>
+                </div>
+                <div className="popup-title"> 
+                  <h3>{popUpTitle}</h3>
+                </div>
               </div>
-              <div className="popup-close popup-button" onClick={() => closePopUp()}>
-                X
+              <div className="popup-close" onClick={() => closePopUp()}>
+                <div className="popup-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="40" width="40">
+                    <path d="M10.542 30.958 9.042 29.458 18.542 20 9.042 10.542 10.542 9.042 20 18.542 29.458 9.042 30.958  10.542 21.458 20 30.958 29.458 29.458 30.958 20 21.458Z"/>
+                  </svg>
+                </div>
               </div>
             </div>
 						<div className="popup-body">
               <div>
                 <input type="text" className="add-todo-input" onChange={e => setContentName(e.target.value)} value={contentName} />
+                <p className="popup-restriction">(Min 1 caratère, max 30 caractères)</p>
+                {popupError && <div className="popup-error">
+                  <div>
+                    <img src={cancelIcon} alt="stop"></img>
+                  </div>
+                  <div className="error-message">
+                    {popupError}
+                  </div>
+                </div>}
               </div>
-              <div className="popup-button" onClick={() => validateForm()}>
+              <div className="popup-send" onClick={() => validateForm()}>
                 <img src={sendIcon} alt="Créer la liste" />
               </div>
             </div>
