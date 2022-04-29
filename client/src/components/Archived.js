@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 /* import of styles and icons */
 import './Ongoing.css'
 import unarchiveIcon from '../assets/unarchive_icon.svg'
+import deleteIcon from '../assets/delete_icon.svg'
 import infoIcon from '../assets/info_icon.svg'
 
 const api_base = "http://localhost:3001";
@@ -27,6 +28,13 @@ function Archived() {
   const archiveList = async id => {
     await fetch(api_base + '/list/archive/' + id).then(res => res.json());
 		GetLists()
+	}
+
+  // delete a list
+  const deleteList = async id => {
+		const data = await fetch(api_base + '/list/delete/' + id, { method: "DELETE" }).then(res => res.json());
+
+		setArchivedLists(lists => lists.filter(list => list._id !== data.result._id));
 	}
 
 
@@ -57,6 +65,10 @@ function Archived() {
                 <div className="option tooltip" onClick={() => archiveList(list._id)}>
                   <img src={unarchiveIcon} alt="Archiver la liste"></img>
                   <span className="tooltip-text">Désarchiver</span>
+                </div>
+                <div className="option tooltip" onClick={() => deleteList(list._id)}>
+                  <img src={deleteIcon} alt="Supprimer la liste"></img>
+                  <span className="tooltip-text">Supprimer ↓</span>
                 </div>
               </div>
             </div>

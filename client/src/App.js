@@ -36,13 +36,13 @@ function App() {
                 </li>
                 <li>
                   <NavLink
-                    to="completed"
+                    to="archived"
                     className={({ isActive }) =>
                       isActive ? 'active' : undefined
                     }
                     onClick={() => setOngoing(false)}
                   >
-                    Terminées
+                    Archivées
                   </NavLink>
                 </li>
               </ul>
