@@ -11,6 +11,7 @@ import sendIcon from '../assets/send_icon.svg'
 import addTaskIcon from '../assets/add_circle_outline_icon.svg'
 import edit40pxIcon from '../assets/edit_40px_icon.svg'
 import cancelIcon from '../assets/cancel_icon.svg'
+import infoIcon from '../assets/info_icon.svg'
 
 const api_base = "http://localhost:3001";
 
@@ -225,6 +226,16 @@ function Ongoing() {
 
   return (
     <div className="page-content">
+      {/* default message if no lists */}
+      {lists.length===0 && <div className="default-message">
+        <div>
+          <img src={infoIcon} alt="Archiver la liste"></img>
+        </div> 
+        <div>
+          <p>Il n'y a actuellement aucune liste.</p>
+        </div>
+      </div>}
+      
       {/* ----- lists ----- */}
       {lists.map(list => (
         <div className="list-card" key={list._id}>
