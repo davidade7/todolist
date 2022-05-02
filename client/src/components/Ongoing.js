@@ -23,7 +23,7 @@ function Ongoing() {
   const [taskId, setTaskId] = useState("");
   const [action, setAction] = useState("");
   const [popUpTitle, setPopUpTitle] = useState("");
-  const [popupError, setPopupError] = useState("")
+  const [popupError, setPopupError] = useState("");
   
   useEffect(() => {
     GetLists();
@@ -50,9 +50,9 @@ function Ongoing() {
     setPopUpTitle("Ajouter une liste");
     setAddPopupActive(true);
   }
-  
   const addList = async () => {
-		const data = await fetch(api_base + "/list/new", {
+		const addListUrl = `${api_base}/list/new`
+    const data = await fetch(addListUrl, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json" 
@@ -61,14 +61,14 @@ function Ongoing() {
 				listName: contentName
 			})
 		}).then(res => res.json());
-
 		setLists([...lists, data]);
 		closePopUp();
 	}
 
   // Archive a list
   const archiveList = async id => {
-    await fetch(api_base + '/list/archive/' + id).then(res => res.json());
+    const archiveUrl = `${api_base}/list/archive/${id}`
+    await fetch(archiveUrl).then(res => res.json());
 		GetLists()
 	}
 
@@ -89,10 +89,9 @@ function Ongoing() {
 		 	body: JSON.stringify({
 		 		listName: contentName
 		 	})
-		 }).then(res => res.json());
-
-     closePopUp();
-     GetLists()
+		}).then(res => res.json());
+    closePopUp();
+    GetLists()
   }
 
   // add a task
@@ -100,7 +99,6 @@ function Ongoing() {
     setAction('add-task');
     setPopUpTitle("Ajouter une tâche");
     setListId(list_Id);
-    console.log(list_Id);
     setAddPopupActive(true);
   }
   const addTask = async () => {
@@ -118,18 +116,13 @@ function Ongoing() {
   }
 
   // Delete a task
-  const setupDeleteTask = async(list_Id, task_Id) => {
-    setListId(list_Id);
-    setTaskId(task_Id);
-    await deleteTask();
-  }
-  const deleteTask = async() => {
-    const deleteUrl = `${api_base}/list/${listId}/delete/${taskId}`;
+  const deleteTask = async(list_Id, task_Id) => {
+    const deleteUrl = `${api_base}/list/${list_Id}/delete/${task_Id}`
     await fetch(deleteUrl, { method: "PUT"})
- 	  .then(res => res.json());
+ 	    .then(res => res.json());
     GetLists()
   }
-
+    
   // Rename a task
   const setupRenameTask = (list_Id, task_Id, list_Name) => {
     setListId(list_Id);
@@ -149,33 +142,26 @@ function Ongoing() {
         taskName: contentName
       })
     }).then(res => res.json());
-
     closePopUp();
     GetLists()
   }
 
   // Complete a task
-  const setupCompleteTask = async(list_Id, task_Id, list_isCompleted) => {
-    setListId(list_Id);
-    setTaskId(task_Id);
-    setContentName(list_isCompleted);
-    console.log(contentName)
-    await completeTask();
-  }
-  const completeTask = async() => {
-    await fetch(api_base + "/list/" + listId + "/complete/" + taskId, {
+  const completeTask = async(list_Id, task_Id, list_isCompleted) => {
+    const completeTaskUrl = `${api_base}/list/${list_Id}/complete/${task_Id}`;
+    const taskStatut = list_isCompleted
+    await fetch(completeTaskUrl, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json" 
       },
       body: JSON.stringify({
-        isCompleted: !contentName
+        isCompleted: !taskStatut
       })
     }).then(res => res.json());
     setContentName("")
     GetLists()
   }
-
 
   // Close PopUp and reset data
   const closePopUp = () => {
@@ -235,7 +221,7 @@ function Ongoing() {
           <p>Il n'y a actuellement aucune liste.</p>
         </div>
       </div>}
-      
+
       {/* ----- lists ----- */}
       {lists.map(list => (
         <div className="list-card" key={list._id}>
@@ -267,10 +253,13 @@ function Ongoing() {
             {/* ----- tasks ----- */}
             {list.tasks.map(task => (
               <div className="task" key={task._id}>
-                <div className="task-left" onChange={() => setupCompleteTask(list._id, task._id, task.isCompleted)}>
+                <div className="task-left">
                   <div>
-                    {task.isCompleted && <input type="checkbox" defaultChecked/>}
-                    {!task.isCompleted && <input type="checkbox"/>}
+                    <input 
+                      type="checkbox" 
+                      checked={task.isCompleted ? true : false} 
+                      onChange={() => completeTask(list._id, task._id, task.isCompleted)}
+                    />
                   </div>
                   <div className="task-content"> 
                     {task.taskName}
@@ -281,7 +270,7 @@ function Ongoing() {
                     <img src={editIcon} alt="Renommer la tâche"></img>
                     <span className="tooltip-text">Renommer ↓</span>
                   </div>
-                  <div className="option tooltip" onClick={() => setupDeleteTask(list._id, task._id)}>
+                  <div className="option tooltip" onClick={() => deleteTask(list._id, task._id)}>
                     <img src={deleteIcon} alt="Supprimer la tâche"></img>
                     <span className="tooltip-text">Supprimer ↓</span>
                   </div>
