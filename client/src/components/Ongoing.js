@@ -116,10 +116,20 @@ function Ongoing() {
   }
 
   // Delete a task
-  const deleteTask = async(list_Id, task_Id) => {
+  const deleteTask = async(list_Id, task_Id, list_isCompleted, nbTask, nbCompleted) => {
     const deleteUrl = `${api_base}/list/${list_Id}/delete/${task_Id}`
-    await fetch(deleteUrl, { method: "PUT"})
- 	    .then(res => res.json());
+    const taskStatut = list_isCompleted
+    await fetch(deleteUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json" 
+      },
+      body: JSON.stringify({
+        isCompleted: taskStatut,
+        nbTask : nbTask,
+        nbCompleted: nbCompleted
+      })
+    }).then(res => res.json());
     GetLists()
   }
     
@@ -147,21 +157,23 @@ function Ongoing() {
   }
 
   // Complete a task
-  const completeTask = async(list_Id, task_Id, list_isCompleted) => {
+  const completeTask = async(list_Id, task_Id, task_isCompleted, nbTask, nbCompleted) => {
     const completeTaskUrl = `${api_base}/list/${list_Id}/complete/${task_Id}`;
-    const taskStatut = list_isCompleted
+    const taskStatut = task_isCompleted;
     await fetch(completeTaskUrl, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json" 
       },
       body: JSON.stringify({
-        isCompleted: !taskStatut
+        isCompleted: !taskStatut,
+        nbTask : nbTask,
+        nbCompleted: nbCompleted
       })
     }).then(res => res.json());
-    setContentName("")
     GetLists()
   }
+
 
   // Close PopUp and reset data
   const closePopUp = () => {
@@ -227,7 +239,7 @@ function Ongoing() {
         <div className="list-card" key={list._id}>
           <div className="list-header">
             <div className="card-gauge">
-              66%
+              {list.score}%
             </div>
             <div className="card-content">
               <div className="card-title">
@@ -258,7 +270,7 @@ function Ongoing() {
                     <input 
                       type="checkbox" 
                       checked={task.isCompleted ? true : false} 
-                      onChange={() => completeTask(list._id, task._id, task.isCompleted)}
+                      onChange={() => completeTask(list._id, task._id, task.isCompleted, list.nbTask, list.nbCompleted)}
                     />
                   </div>
                   <div className="task-content"> 
@@ -270,7 +282,7 @@ function Ongoing() {
                     <img src={editIcon} alt="Renommer la tâche"></img>
                     <span className="tooltip-text">Renommer ↓</span>
                   </div>
-                  <div className="option tooltip" onClick={() => deleteTask(list._id, task._id)}>
+                  <div className="option tooltip" onClick={() => deleteTask(list._id, task._id, task.isCompleted, list.nbTask, list.nbCompleted)}>
                     <img src={deleteIcon} alt="Supprimer la tâche"></img>
                     <span className="tooltip-text">Supprimer ↓</span>
                   </div>

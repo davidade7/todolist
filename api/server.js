@@ -74,18 +74,34 @@ app.put('/list/update/:id', async (req, res) => {
 // Create a new task
 app.put('/list/:id/addtask', async (req, res) => {
 	const list = await List.findById(req.params.id);
-	
 	list.tasks.push(
 		{ taskName: req.body.taskName}
 	)
+	list.nbTask += 1;
+	list.score = Math.floor(list.nbCompleted * 100 / list.nbTask);
 	list.save();
-
 	res.json(list);
 });
 
+
 // Delete a task
 app.put('/list/:list_id/delete/:task_id', async (req, res) => {
-	const list = await List.updateOne({_id : req.params.list_id}, {$pull : {"tasks": {_id: req.params.task_id}}});
+	let completedIncrement = '';
+	let completion ='';
+	if (req.body.isCompleted) {
+		completedIncrement = -1;
+		completion = Math.floor((req.body.nbCompleted - 1) * 100 / (req.body.nbTask - 1));
+	} else {
+		completedIncrement = 0;
+		completion = Math.floor((req.body.nbCompleted) * 100 / (req.body.nbTask - 1));
+	}
+	const list = await List.updateOne(
+		{_id : req.params.list_id}, 
+		{
+		$pull : {"tasks": {_id: req.params.task_id}}, 
+		$inc : {"nbTask": -1 , "nbCompleted": completedIncrement}, 
+		$set : {"score": completion}
+		});
 	res.json(list);
 });
 
@@ -93,14 +109,23 @@ app.put('/list/:list_id/delete/:task_id', async (req, res) => {
 app.put('/list/:list_id/rename/:task_id', async (req, res) => {
 	const list = await List.updateOne({_id : req.params.list_id, tasks : { $elemMatch : {_id : req.params.task_id }}}, 
 		{$set : {"tasks.$.taskName": req.body.taskName}});
-	
 	res.json(list);
 });
 
 // Complete a task
 app.put('/list/:list_id/complete/:task_id', async (req, res) => {
-	const list = await List.updateOne({_id : req.params.list_id, tasks : { $elemMatch : {_id : req.params.task_id }}}, 
-		{$set : {"tasks.$.isCompleted": req.body.isCompleted}});
-	
+	let completedIncrement = '';
+	let completion ='';
+	if (req.body.isCompleted) {
+		completedIncrement = 1;
+		completion = Math.floor((req.body.nbCompleted + 1)*100/req.body.nbTask);
+	} else {
+		completedIncrement = -1;
+		completion = Math.floor((req.body.nbCompleted - 1)*100/req.body.nbTask);
+	}
+	const list = await List.updateOne(
+		{_id : req.params.list_id, tasks : { $elemMatch : {_id : req.params.task_id }}}, 
+		{$set : {"tasks.$.isCompleted": req.body.isCompleted, "score": completion}, $inc : {"nbCompleted": completedIncrement }}
+		);
 	res.json(list);
 });

@@ -55,7 +55,7 @@ function Archived() {
         <div className="list-card" key={list._id}>
           <div className="list-header">
             <div className="card-gauge">
-              66%
+              {list.score}%
             </div>
             <div className="card-content">
               <div className="card-title">

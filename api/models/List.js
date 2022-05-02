@@ -10,6 +10,8 @@ const ListSchema = new Schema({
 	listName: {type: String, required: true},
 	isArchived: {type: Boolean, default: false},
 	score: {type: Number, default: 0},
+	nbTask: {type: Number, default: 0},
+	nbCompleted: {type: Number, default: 0},
 	tasks: [TaskSchema]
 });
 
