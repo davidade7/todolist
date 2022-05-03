@@ -274,3 +274,55 @@
   font-size: 24px;
   
 }
+
+
+@media screen and (max-width: 1000px) {
+  .list-card {
+    margin: 0 10px 30px 42px;
+  }
+  .card-content h2 {
+    font-size: 32px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .list-card {
+    margin: 0 0 30px 32px;
+  }
+  .list-header {
+    height: 68px;
+  }
+  .card-content h2 {
+    font-size: 28px;
+    transform: translateX(-20px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 55vw;
+  }
+  .option {
+    margin: 0 2px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .list-card {
+    margin: 0 0 30px 32px;
+  }
+  .list-header {
+    height: 52px;
+  }
+  .card-content h2 {
+    font-size: 22px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 50vw;
+  }
+  .list-footer {
+    padding: 10px;
+  }
+  .task {
+    margin-bottom: 5px;
+  }
+}

@@ -60,6 +60,7 @@ a:hover {
   padding: 15px;
   margin: 0 auto;
   position: relative;
+  min-height: calc(100vh - 208px);
 }
 
 
@@ -81,6 +82,9 @@ a:hover {
   }
   h1 {
     font-size: 60px;
+  }
+  .content {
+    min-height: calc(100vh - 172px);
   }
 }
 
@@ -104,4 +108,7 @@ a:hover {
   h1 {
     font-size: 50px;
   }
+  .content {
+    min-height: calc(100vh - 156px);
+  }  
 }

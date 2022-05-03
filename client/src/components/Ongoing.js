@@ -343,7 +343,7 @@ function Ongoing() {
             </div>
 						<div className="popup-body">
               <div>
-                <input type="text" className="add-todo-input" onChange={e => setContentName(e.target.value)} value={contentName} />
+                <input type="text" className="add-todo-input" onChange={e => setContentName(e.target.value)} value={contentName} focus/>
                 <p className="popup-restriction">(Min 1 caratère, max 30 caractères)</p>
                 {popupError && <div className="popup-error">
                   <div>
