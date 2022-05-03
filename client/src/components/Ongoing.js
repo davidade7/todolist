@@ -220,7 +220,12 @@ function Ongoing() {
       }
     }
   }
-
+  
+  // function to edit style strokeDashoffset
+  const styleGauge = (percent) => {
+    const value = 201 - percent * 201 / 100;
+    return (value)
+  }
 
   return (
     <div className="page-content">
@@ -241,7 +246,8 @@ function Ongoing() {
             <div className="card-gauge">
               <svg>
                 <circle cx="32" cy="32" r="32"></circle>
-                <circle className="gauge-blue" cx="32" cy="32" r="32"></circle>
+                <circle className="gauge-blue" cx="32" cy="32" r="32" 
+                  style={{strokeDashoffset: styleGauge(list.score), transition: 'ease-in 0.25s'}}></circle>
               </svg>
               <div className="gauge-score">
                 <h2>{list.score}</h2><span>%</span>
