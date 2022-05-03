@@ -6,6 +6,7 @@
   background-size: 100%;
   display: flex;
   flex-wrap: wrap;
+  overflow: auto;
 }
 
 
@@ -56,8 +57,6 @@ a:hover {
 .content {
   width: 1020px;
   background-color: rgba(243, 243, 243,0.75);
-  /* Corriger la hauteur */
-  height: calc(100vh - 208px);
   padding: 15px;
   margin: 0 auto;
   position: relative;

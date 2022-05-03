@@ -160,10 +160,11 @@
 
 /* Add list button */
 .add-list-button {
-  position: absolute;
+  position: sticky;
   bottom: 50px;
-  right: 50px;
   z-index: 2;
+  display:flex;
+  justify-content: end;
 }
 .add-list-button:hover {
   cursor: pointer;
