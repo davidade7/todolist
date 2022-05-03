@@ -49,4 +49,7 @@ table {
   font-family: 'Segoe UI';
   --main-bg-color: rgba(173, 130, 40, 0.75);
 	--blue-color: rgba(87, 128, 199, 1.0);
+
+	--PI: 3.14;
+	--gauge-radius-xl: 32;
 }

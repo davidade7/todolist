@@ -16,31 +16,57 @@
 }
 
 /* Gauge */
+ 
 .card-gauge {
-  height: 56px;
-  width: 56px;
-  background-color: white;
-  border: solid 2px grey;
-  border-radius: 50%;
-  position: absolute;
-  transform: translateX(-32px);
-  
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 68px;
+  height: 68px;
+  position: relative;
+  transform: translate(7px, 0px);
+}
+.card-gauge svg {
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+.card-gauge svg circle {
+  fill: none;
+  stroke: black;
+  transform: translate(2px,2px);
+  stroke-linecap: round;
+  }
+.card-gauge svg circle:nth-child(1){
+  stroke-dasharray: calc(2*var(--gauge-radius-xl)*var(--PI));
+  stroke-width: 2px;
+  stroke: rgb(175, 175, 175);
+  fill: white;
+}
+.card-gauge svg circle:nth-child(2){
+  stroke-dasharray: calc(2*var(--gauge-radius-xl)*var(--PI));
+  stroke-dashoffset: calc(201 - 66*201/100);
+  stroke-width: 4px;
+  stroke: var(--blue-color)
+}
+
+.card-gauge .gauge-score {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-39px, 0px);
+}
+.gauge-score h2 {
   font-size: 24px;
   font-weight: bold;
 }
 
-/* .card-gauge {
-  height: 56px;
-  width: 56px;
-  border: solid 4px var(--blue-color);
-  border-radius: 50%;
-  transform: translateX(-34px);
-  position: absolute;
-} */
 
+/* List */
 .card-content {
   display: flex;
   justify-content: space-between;
@@ -48,10 +74,8 @@
   width: 100%;
   height: 100%;
 }
-
 .card-content h2 {
   font-size: 36px;
-  padding-left: 50px;
 }
 
 
