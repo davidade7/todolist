@@ -7,7 +7,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect('mongodb://127.0.0.1:27017/todosdb', {
+let uri = 'mongodb+srv://david:test123456@cluster0.qyqlp.mongodb.net/todosdb?retryWrites=true&w=majority'
+
+mongoose.connect(uri, {
 	useNewUrlParser: true, 
 	useUnifiedTopology: true 
 })

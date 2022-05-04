@@ -39,7 +39,7 @@
 .card-gauge svg circle:nth-child(1){
   stroke-dasharray: calc(2*var(--gauge-radius-xl)*var(--PI));
   stroke-width: 2px;
-  stroke: rgb(175, 175, 175);
+  stroke: silver;
   fill: white;
 }
 .card-gauge svg circle:nth-child(2){
