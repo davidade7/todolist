@@ -13,7 +13,7 @@ import edit40pxIcon from '../assets/edit_40px_icon.svg'
 import cancelIcon from '../assets/cancel_icon.svg'
 import infoIcon from '../assets/info_icon.svg'
 
-const api_base = "http://localhost:3001";
+const api_base = "http://localhost:8080";
 
 function Ongoing() {
   const [lists, setLists] = useState([]);

@@ -1,13 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require("path");
+const dotenv = require('dotenv');
+const PORT = process.env.PORT || 8080;
 
 const app = express();
-
 app.use(express.json());
 app.use(cors());
+dotenv.config();
 
-let uri = 'mongodb+srv://david:test123456@cluster0.qyqlp.mongodb.net/todosdb?retryWrites=true&w=majority'
+const dbHost = process.env.DB_HOST;
+const dbPwd = process.env.DB_PWD;
+const uri = `mongodb+srv://${dbHost}:${dbPwd}@cluster0.qyqlp.mongodb.net/todosdb?retryWrites=true&w=majority`;
 
 mongoose.connect(uri, {
 	useNewUrlParser: true, 
@@ -16,7 +21,12 @@ mongoose.connect(uri, {
   .then(() => console.log("PROJECT - Connected to MongoDB"))
   .catch(console.error);
 
-app.listen(3001, () => console.log("PROJECT - Server started on port 3001"));
+	
+
+if (process.env.NODE_ENV === "developement") {
+  app.use("/", express.static(__dirname + "/"));
+}
+
 
 // ---------------------------
 // Routes for list
@@ -131,3 +141,13 @@ app.put('/list/:list_id/complete/:task_id', async (req, res) => {
 		);
 	res.json(list);
 });
+
+
+if (process.env.NODE_ENV === "production") {
+  // Serve any static files
+  app.use(express.static(path.resolve(__dirname, "../client/build")));
+   // Handle React routing, return all requests to React app  app.get("*", function (req, res) {
+    res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+  };
+ 
+app.listen(PORT, () => console.info(`PROJECT - Server started on port ${PORT}`));

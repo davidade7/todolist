@@ -7,7 +7,7 @@ import unarchiveIcon from '../assets/unarchive_icon.svg'
 import deleteIcon from '../assets/delete_icon.svg'
 import infoIcon from '../assets/info_icon.svg'
 
-const api_base = "http://localhost:3001";
+const api_base = "http://localhost:8080";
 
 function Archived() {
   const [archivedLists, setArchivedLists] = useState([]);

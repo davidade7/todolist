@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "predeploy": "cd client && npm run build",
-    "deploy": "gh-pages -d build"
+    "start:client": "cd client && npm run start",    
+    "start:api": "cd api && npm run start",    
+    "dev:api": "cd api && npm run dev",    
+    "start": "node api/index.js",    
+    "heroku-postbuild": "cd api && npm install && cd ../client && npm install && npm run build"  
   },
   "repository": {
     "type": "git",
@@ -18,7 +20,5 @@
     "url": "https://github.com/davidade7/todolist/issues"
   },
   "homepage": "https://github.com/davidade7/todolist/",
-  "devDependencies": {
-    "gh-pages": "^4.0.0"
-  }
+  "devDependencies": {}
 }
