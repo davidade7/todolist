@@ -21,7 +21,7 @@ mongoose.connect(uri, {
   .then(() => console.log("PROJECT - Connected to MongoDB"))
   .catch(console.error);
 
-	
+
 
 if (process.env.NODE_ENV === "developement") {
   app.use("/", express.static(__dirname + "/"));
@@ -146,8 +146,10 @@ app.put('/list/:list_id/complete/:task_id', async (req, res) => {
 if (process.env.NODE_ENV === "production") {
   // Serve any static files
   app.use(express.static(path.resolve(__dirname, "../client/build")));
-   // Handle React routing, return all requests to React app  app.get("*", function (req, res) {
+   // Handle React routing, return all requests to React app  
+	app.get("*", function (req, res) {
     res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-  };
+	})
+};
  
 app.listen(PORT, () => console.info(`PROJECT - Server started on port ${PORT}`));
