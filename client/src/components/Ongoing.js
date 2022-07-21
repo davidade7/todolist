@@ -342,9 +342,18 @@ function Ongoing() {
               </div>
             </div>
 						<div className="popup-body">
-              <div>
-                <input type="text" className="add-todo-input" onChange={e => setContentName(e.target.value)} value={contentName} focus/>
-                <p className="popup-restriction">(Min 1 caratère, max 30 caractères)</p>
+              <form onSubmit={validateForm}>
+                <div className="form">
+                  <div>
+                    <input type="text" className="add-todo-input" onChange={e => setContentName(e.target.value)} value={contentName}/>
+                  </div>
+                  <div>
+                    <button className="popup-send">
+                      <img src={sendIcon} alt="Créer la liste" />
+                    </button>
+                  </div>
+                </div>
+                <p className="popup-restriction">(Min 1 caractère, max 30 caractères)</p>
                 {popupError && <div className="popup-error">
                   <div>
                     <img src={cancelIcon} alt="stop"></img>
@@ -353,10 +362,7 @@ function Ongoing() {
                     {popupError}
                   </div>
                 </div>}
-              </div>
-              <div className="popup-send" onClick={() => validateForm()}>
-                <img src={sendIcon} alt="Créer la liste" />
-              </div>
+              </form>
             </div>
 					</div>
 				</div>

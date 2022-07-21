@@ -174,7 +174,7 @@
 /* Popup */
 .popup {
   position: absolute;
-  height: 100vh;
+  height: calc(100% + 178px);
   width: 100%;
   top:-178px;
   left:0;
@@ -188,11 +188,10 @@
   padding: 15px;
   position: absolute;
   left:50%;
-  top: 50%;
+  top: 400px;
   transform: translate(-50%, -50%);
   border: 2px solid black;
   border-radius: 5px;
-  /* box-shadow: 0 5px 5px grey; */
 }
 .popup-header {
   display: flex;
@@ -215,11 +214,28 @@
 .popup-body input {
   height: 30px;
   width: 420px;
-  margin-top: 8px;
   font-size: 24px;
   outline-color: var(--blue-color) ;
   border: 1px solid black;
   border-radius: 3px;
+}
+.popup-body .form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+}
+.popup-body .form button {
+  padding: 0;
+  background-color: lightgrey;
+  border: none;
+}
+.popup-body .form button:hover{
+  background-color: darkgray;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: ease 0.5s;
 }
 .popup-close {
   display: flex;
@@ -233,13 +249,6 @@
   border-radius: 50%;
   transition: ease 0.5s;
   cursor: pointer;
-}
-.popup-send:hover{
-  background-color: darkgray;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: ease 0.5s;
-  
 }
 .popup-restriction {
   padding-top: 5px;
